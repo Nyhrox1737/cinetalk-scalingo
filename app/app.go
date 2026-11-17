@@ -68,10 +68,18 @@ func InitApp() *App {
 
 	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
+	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		if err := db.Ping(); err != nil {
+			helper.WriteJSON(w, http.StatusServiceUnavailable, map[string]string{"status": "ko", "database": err.Error()})
+			return
+		}
+		helper.WriteJSON(w, http.StatusOK, map[string]string{"status": "ok", "database": "ok"})
+	}).Methods("GET")
+
 	return &App{
 		Db:     db,
 		Router: router,
-		Port:   config.GetEnvWithDefault("SERVER_PORT", "8080"),
+		Port:   config.GetEnvWithDefault("PORT", config.GetEnvWithDefault("SERVER_PORT", "8080")),
 	}
 }
 

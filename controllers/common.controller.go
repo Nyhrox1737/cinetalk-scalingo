@@ -49,12 +49,13 @@ func baseData(r *http.Request) map[string]any {
 }
 
 // Depose le cookie de session avec le jeton d'authentification.
-func setAuthCookie(w http.ResponseWriter, token string) {
+func setAuthCookie(w http.ResponseWriter, r *http.Request, token string) {
 	http.SetCookie(w, &http.Cookie{
 		Name:     middleware.CookieName,
 		Value:    token,
 		Path:     "/",
 		HttpOnly: true,
+		Secure:   r.TLS != nil || r.Header.Get("X-Forwarded-Proto") == "https",
 		SameSite: http.SameSiteLaxMode,
 		MaxAge:   24 * 60 * 60,
 	})

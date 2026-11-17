@@ -49,7 +49,7 @@ func (c *AuthController) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	setAuthCookie(w, token)
+	setAuthCookie(w, r, token)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
@@ -77,7 +77,7 @@ func (c *AuthController) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	setAuthCookie(w, token)
+	setAuthCookie(w, r, token)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
