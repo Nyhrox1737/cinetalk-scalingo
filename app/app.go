@@ -4,6 +4,7 @@ package app
 
 import (
 	"database/sql"
+	"log"
 	"net/http"
 
 	"forum/auth"
@@ -70,7 +71,8 @@ func InitApp() *App {
 
 	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		if err := db.Ping(); err != nil {
-			helper.WriteJSON(w, http.StatusServiceUnavailable, map[string]string{"status": "ko", "database": err.Error()})
+			log.Printf("Health check - base de donnees injoignable : %s", err.Error())
+			helper.WriteJSON(w, http.StatusServiceUnavailable, map[string]string{"status": "ko", "database": "ko"})
 			return
 		}
 		helper.WriteJSON(w, http.StatusOK, map[string]string{"status": "ok", "database": "ok"})
