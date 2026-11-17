@@ -1,4 +1,3 @@
-USE cinetalk;
 SET NAMES utf8mb4;
 
 INSERT INTO utilisateurs (nom_utilisateur, email, mot_de_passe, sel, role) VALUES

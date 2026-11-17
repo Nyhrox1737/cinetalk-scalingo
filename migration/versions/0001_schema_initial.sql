@@ -1,12 +1,4 @@
-SET NAMES utf8mb4;
-DROP DATABASE IF EXISTS cinetalk;
-CREATE DATABASE cinetalk
-    DEFAULT CHARACTER SET utf8mb4
-    DEFAULT COLLATE utf8mb4_unicode_ci;
-
-USE cinetalk;
-
-CREATE TABLE utilisateurs (
+CREATE TABLE IF NOT EXISTS utilisateurs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom_utilisateur VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
@@ -17,12 +9,12 @@ CREATE TABLE utilisateurs (
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
-CREATE TABLE tags (
+CREATE TABLE IF NOT EXISTS tags (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(50) UNIQUE NOT NULL
 ) ENGINE=InnoDB;
 
-CREATE TABLE fils (
+CREATE TABLE IF NOT EXISTS fils (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titre VARCHAR(150) NOT NULL,
     contenu TEXT NOT NULL,
@@ -36,7 +28,7 @@ CREATE TABLE fils (
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE fil_tags (
+CREATE TABLE IF NOT EXISTS fil_tags (
     fil_id INT NOT NULL,
     tag_id INT NOT NULL,
     PRIMARY KEY (fil_id, tag_id),
@@ -52,7 +44,7 @@ CREATE TABLE fil_tags (
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS messages (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fil_id INT NOT NULL,
     utilisateur_id INT NOT NULL,
@@ -70,7 +62,7 @@ CREATE TABLE messages (
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE reactions (
+CREATE TABLE IF NOT EXISTS reactions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     message_id INT NOT NULL,
     utilisateur_id INT NOT NULL,
@@ -90,7 +82,7 @@ CREATE TABLE reactions (
 ) ENGINE=InnoDB;
 
 -- Favoris d'un membre sur un film/serie du catalogue (TMDB)
-CREATE TABLE film_favoris (
+CREATE TABLE IF NOT EXISTS film_favoris (
     utilisateur_id INT NOT NULL,
     tmdb_id INT NOT NULL,
     media_type ENUM('movie', 'tv') NOT NULL,
@@ -106,7 +98,7 @@ CREATE TABLE film_favoris (
 ) ENGINE=InnoDB;
 
 -- Commentaires d'un membre sous un film/serie du catalogue
-CREATE TABLE film_commentaires (
+CREATE TABLE IF NOT EXISTS film_commentaires (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tmdb_id INT NOT NULL,
     media_type ENUM('movie', 'tv') NOT NULL,

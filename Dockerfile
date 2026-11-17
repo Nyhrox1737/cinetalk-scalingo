@@ -28,4 +28,4 @@ COPY static ./static
 
 EXPOSE 8080
 
-CMD ["./forum"]
+CMD ["sh", "-c", "./forum migrate && ./forum seed && ./forum"]

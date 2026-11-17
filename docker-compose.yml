@@ -10,9 +10,6 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      # Les scripts sont joues automatiquement au premier demarrage (ordre alphabetique)
-      - ./migration/script.sql:/docker-entrypoint-initdb.d/01-script.sql:ro
-      - ./migration/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_PWD:-cinetalk}"]
       interval: 5s
@@ -33,7 +30,7 @@ services:
       DB_HOST: db
       DB_PORT: 3306
       JWT_SECRET: ${JWT_SECRET:-cinetalk_dev_secret_change_me}
-      SERVER_PORT: 8080
+      PORT: 8080
       TMDB_API_KEY: ${TMDB_API_KEY:-}
     ports:
       - "8080:8080"
