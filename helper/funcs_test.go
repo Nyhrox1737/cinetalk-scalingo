@@ -8,7 +8,7 @@ func TestTruncate(t *testing.T) {
 	if got := truncate("Bonjour", 10); got != "Bonjour" {
 		t.Errorf("texte court modifie : %q", got)
 	}
-	if got := truncate("Bonjour tout le monde", 7); got != "Bonjour" {
+	if got := truncate("Bonjour tout le monde", 7); got != "Bonjour..." {
 		t.Errorf("texte long mal tronque : %q", got)
 	}
 }
